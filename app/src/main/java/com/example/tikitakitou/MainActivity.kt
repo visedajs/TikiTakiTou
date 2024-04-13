@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //https://www.youtube.com/watch?v=2gljhNFKimk Saprasts, ka mainit skatus
+        //https://www.youtube.com/watch?v=2gljhNFKimk Saprasts, ka mainit skatus ar pogam
+        // pogas uz attiecigajiem spelu rezimu iestatijumiem
         val btnPVP = findViewById<Button>(R.id.btnPVP)
         btnPVP.setOnClickListener {
             val intent1 = Intent(this, PVPSettings::class.java)
@@ -32,23 +33,5 @@ class MainActivity : ComponentActivity() {
             val intent2 = Intent(this, PVCSettings::class.java)
             startActivity(intent2)
         }
-    }
-
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "caw $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TikiTakiTouTheme {
-        Greeting("Android")
     }
 }
