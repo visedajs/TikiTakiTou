@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewPVPTitle"
+        android:layout_width="192dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="631dp"
+        android:text="Enter the name for each contestant"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextPVPFirstPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="175dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:hint="Player 1"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPVPSecondPlayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPVPTitle" />
+
+    <EditText
+        android:id="@+id/editTextPVPSecondPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginBottom="334dp"
+        android:ems="10"
+        android:hint="Player 2"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPVPFirstPlayer" />
+
+    <Button
+        android:id="@+id/btnPVPPlayGame"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="146dp"
+        android:layout_marginBottom="160dp"
+        android:text="Play Game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPVPSecondPlayer" />
+
+    <Button
+        android:id="@+id/btnPVPBack"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="101dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPVPPlayGame" />
+</androidx.constraintlayout.widget.ConstraintLayout>

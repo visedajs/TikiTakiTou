@@ -1,6 +1,8 @@
 package com.example.tikitakitou
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,11 +16,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.tikitakitou.ui.theme.TikiTakiTouTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //https://www.youtube.com/watch?v=2gljhNFKimk Saprasts, ka mainit skatus
+        val btnPVP = findViewById<Button>(R.id.btnPVP)
+        btnPVP.setOnClickListener {
+            val intent1 = Intent(this, PVPSettings::class.java)
+            startActivity(intent1)
+        }
+
+        val btnPVC= findViewById<Button>(R.id.btnPVC)
+        btnPVC.setOnClickListener {
+            val intent2 = Intent(this, PVCSettings::class.java)
+            startActivity(intent2)
+        }
     }
+
 }
 
 
