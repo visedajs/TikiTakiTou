@@ -29,28 +29,13 @@ class PVCSettings: ComponentActivity() {
 
         val btnPVPPlayGame = findViewById<Button>(R.id.btnPVCPlayGame)
 
-        btnPVPPlayGame.setOnClickListener {
 
-
-            val one = playerName.text.toString()
-            if (one.isEmpty()) {
-                playerName.error = "Please enter your name"
-                return@setOnClickListener
-            }
-            println("first player: $one")
-
-            val intent = Intent(this, MainGame::class.java)
-            // https://stackoverflow.com/a/12529603
-            // padod speletaju vardu uz MainGame
-            intent.putExtra("playerName", one)
-            startActivity(intent)
-
-        }
         val buttonFirst = findViewById<MaterialButton>(R.id.btnPVCToggleFirst)
         val buttonSecond = findViewById<MaterialButton>(R.id.btnPVCToggleSecond)
         val buttonRandom = findViewById<MaterialButton>(R.id.btnPVCToggleRandom)
         val textViewFirstMoveChoice = findViewById<TextView>(R.id.textViewPVCFirstMoveChoice)
 
+        // pogas, kas lauj izveleties, kuram bus pirmais gajiens
         buttonFirst.setOnClickListener {
             val one = playerName.text.toString()
             if(checkIfNameIsEmpty(one)){
@@ -75,6 +60,26 @@ class PVCSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Random")
+        }
+        // poga, kas sak speli
+        btnPVPPlayGame.setOnClickListener {
+
+            //parbauda, vai speletaja vards ir ievadits
+            val one = playerName.text.toString()
+            if (one.isEmpty()) {
+                playerName.error = "Please enter your name"
+                return@setOnClickListener
+            }
+
+            val intent = Intent(this, MainGame::class.java)
+            // https://stackoverflow.com/a/12529603
+            // padod speletaju vardu uz MainGame
+            intent.putExtra("firstPlayer", one)
+            intent.putExtra("secondPlayer", "Computer")
+            intent.putExtra("firstMove", textViewFirstMoveChoice.text.toString())
+            intent.putExtra("gameMode", "PVC")
+            startActivity(intent)
+
         }
     }
 

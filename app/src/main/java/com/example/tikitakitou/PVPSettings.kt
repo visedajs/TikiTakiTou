@@ -25,32 +25,13 @@ class PVPSettings: ComponentActivity() {
 
         val firstPlayerName = findViewById<EditText>(R.id.editTextPVPFirstPlayer)
         val secondPlayerName = findViewById<EditText>(R.id.editTextPVPSecondPlayer)
-
         val btnPVPPlayGame = findViewById<Button>(R.id.btnPVPPlayGame)
-        btnPVPPlayGame.setOnClickListener {
-            val one = firstPlayerName.text.toString()
-            val two = secondPlayerName.text.toString()
-
-            if(checkIfNameIsEmpty(one)){
-                firstPlayerName.error = "Please enter your name"
-                return@setOnClickListener
-            }
-            if(checkIfNameIsEmpty(two)){
-                secondPlayerName.error = "Please enter your name"
-                return@setOnClickListener
-            }
-            println("first player: $one and second player: $two")
-            val intent = Intent(this, MainGame::class.java)
-            startActivity(intent)
-        }
         val buttonFirst = findViewById<MaterialButton>(R.id.btnPVPToggleFirst)
         val buttonSecond = findViewById<MaterialButton>(R.id.btnPVPToggleSecond)
         val buttonRandom = findViewById<MaterialButton>(R.id.btnPVPToggleRandom)
         val textViewFirstMoveChoice = findViewById<TextView>(R.id.textViewPVPFirstMoveChoice)
 
         buttonFirst.setOnClickListener {
-
-
             val one = firstPlayerName.text.toString()
             val two = secondPlayerName.text.toString()
 
@@ -90,6 +71,29 @@ class PVPSettings: ComponentActivity() {
             }
             textViewFirstMoveChoice.setText("Chosen: Random")
         }
+        btnPVPPlayGame.setOnClickListener {
+            val one = firstPlayerName.text.toString()
+            val two = secondPlayerName.text.toString()
+
+            if(checkIfNameIsEmpty(one)){
+                firstPlayerName.error = "Please enter your name"
+                return@setOnClickListener
+            }
+            if(checkIfNameIsEmpty(two)){
+                secondPlayerName.error = "Please enter your name"
+                return@setOnClickListener
+            }
+            println("first player: $one and second player: $two")
+            val intent = Intent(this, MainGame::class.java)
+            intent.putExtra("firstPlayer", one)
+            intent.putExtra("secondPlayer", two)
+            intent.putExtra("firstMove", textViewFirstMoveChoice.text.toString())
+            intent.putExtra("gameMode", "PVP")
+            startActivity(intent)
+        }
+
+
+
 
 
     }
