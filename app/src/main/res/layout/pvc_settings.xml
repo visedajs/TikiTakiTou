@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme">
 
     <TextView
         android:id="@+id/textViewPVCTitle"
@@ -22,7 +24,7 @@
     <EditText
         android:id="@+id/editTextPVCName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="91dp"
         android:layout_marginEnd="91dp"
         android:layout_marginBottom="380dp"
@@ -31,7 +33,7 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -57,4 +59,87 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <!--https://www.youtube.com/watch?v=jjFxl04HEFM
+        https://stackoverflow.com/a/57769958
+        https://www.youtube.com/watch?v=gunuQ-nGdnY
+        lai saprastu, ka uztaisit toggle pogas un ka salabot lai tas strada pec jauna standarta
+    -->
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="163dp"
+        android:text="First move"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPVCName" />
+
+    <LinearLayout
+        android:id="@+id/toggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:singleSelection="true">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPVCToggleFirst"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:importantForAccessibility="no"
+            app:backgroundTint="@drawable/button_background"
+            app:icon="@mipmap/player_one_foreground"
+            app:iconGravity="textEnd"
+            app:iconSize="55dp"
+            app:iconTint="@color/icon_tint" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPVCToggleSecond"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:importantForAccessibility="no"
+            app:backgroundTint="@drawable/button_background"
+            app:icon="@mipmap/computer_foreground"
+            app:iconGravity="textEnd"
+            app:iconSize="60dp"
+            app:iconTint="@color/icon_tint" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPVCToggleRandom"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:importantForAccessibility="no"
+            app:backgroundTint="@drawable/button_background"
+            app:icon="@mipmap/dice_foreground"
+            app:iconGravity="textEnd"
+            app:iconSize="55dp"
+            app:iconTint="@color/icon_tint" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewPVCFirstMoveChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="153dp"
+        android:text="Chosen: Random"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleGroup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
