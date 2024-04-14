@@ -34,6 +34,7 @@ class PVCSettings: ComponentActivity() {
         val buttonSecond = findViewById<MaterialButton>(R.id.btnPVCToggleSecond)
         val buttonRandom = findViewById<MaterialButton>(R.id.btnPVCToggleRandom)
         val textViewFirstMoveChoice = findViewById<TextView>(R.id.textViewPVCFirstMoveChoice)
+        var firstMove = 0
 
         // pogas, kas lauj izveleties, kuram bus pirmais gajiens
         buttonFirst.setOnClickListener {
@@ -44,6 +45,7 @@ class PVCSettings: ComponentActivity() {
             }
 
             textViewFirstMoveChoice.setText("Chosen: $one")
+            firstMove = 1
         }
         buttonSecond.setOnClickListener {
             val one = playerName.text.toString()
@@ -52,6 +54,7 @@ class PVCSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Computer")
+            firstMove = 2
         }
         buttonRandom.setOnClickListener {
             val one = playerName.text.toString()
@@ -60,6 +63,9 @@ class PVCSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Random")
+            //https://stackoverflow.com/a/45687695
+            // izvelas nejausi, kurs speletajs bus pirmais
+            firstMove = 0
         }
         // poga, kas sak speli
         btnPVPPlayGame.setOnClickListener {
@@ -74,9 +80,10 @@ class PVCSettings: ComponentActivity() {
             val intent = Intent(this, MainGame::class.java)
             // https://stackoverflow.com/a/12529603
             // padod speletaju vardu uz MainGame
+
             intent.putExtra("firstPlayer", one)
             intent.putExtra("secondPlayer", "Computer")
-            intent.putExtra("firstMove", textViewFirstMoveChoice.text.toString())
+            intent.putExtra("firstMove", firstMove)
             intent.putExtra("gameMode", "PVC")
             startActivity(intent)
 

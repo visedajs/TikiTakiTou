@@ -30,6 +30,7 @@ class PVPSettings: ComponentActivity() {
         val buttonSecond = findViewById<MaterialButton>(R.id.btnPVPToggleSecond)
         val buttonRandom = findViewById<MaterialButton>(R.id.btnPVPToggleRandom)
         val textViewFirstMoveChoice = findViewById<TextView>(R.id.textViewPVPFirstMoveChoice)
+        var firstMove = 1
 
         buttonFirst.setOnClickListener {
             val one = firstPlayerName.text.toString()
@@ -44,6 +45,7 @@ class PVPSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: $one")
+            firstMove = 1
         }
         buttonSecond.setOnClickListener {
             val one = firstPlayerName.text.toString()
@@ -57,6 +59,7 @@ class PVPSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: $two")
+            firstMove = 2
         }
         buttonRandom.setOnClickListener {
             val one = firstPlayerName.text.toString()
@@ -70,6 +73,8 @@ class PVPSettings: ComponentActivity() {
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Random")
+            val random = (1..2).random()
+            firstMove = random
         }
         btnPVPPlayGame.setOnClickListener {
             val one = firstPlayerName.text.toString()
