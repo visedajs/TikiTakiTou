@@ -16,6 +16,7 @@ class MainGame : ComponentActivity() {
     var playerTwo: String? = ""
     var firstPlayerScore = 0
     var secondPlayerScore = 0
+    var gameMode: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_game)
@@ -39,7 +40,7 @@ class MainGame : ComponentActivity() {
 
         // sanem no izvelnes ekrana padoto informaciju
         val extras = intent.extras
-        val gameMode = extras?.getString("gameMode")
+        gameMode = extras?.getString("gameMode")
         playerOne = extras?.getString("firstPlayer")
         playerTwo = extras?.getString("secondPlayer")
         firstMove = extras?.getInt("firstMove")
@@ -80,10 +81,21 @@ class MainGame : ComponentActivity() {
             currentMove = initialMove
             if (currentMove == 2){
                 textViewWinnerText.text = "$playerTwo's turn"
+                if (gameMode == "PVC"){
+                    val random : Int = computerMove(buttons)
+                    makeMove(buttons[random], buttons)
+                }
             } else {
                 textViewWinnerText.text = "$playerOne's turn"
             }
         }
+
+        if (gameMode == "PVC" && initialMove == 2){
+            val random : Int = computerMove(buttons)
+            println(random)
+            makeMove(buttons[random], buttons)
+        }
+            // https://stackoverflow.com/a/44126291
 
         // "Play again" poga
         // "skatas", kuras pogas tiek nospiestas
@@ -160,6 +172,7 @@ class MainGame : ComponentActivity() {
     // speletajs izdara gajienu
     fun makeMove(button: TextView, buttons: Array<TextView>){
         val textViewWinnerText = findViewById<TextView>(R.id.textViewWinnerText)
+
         if (currentMove == 1){
             button.text = "X"
             textViewWinnerText.text = "$playerTwo's turn"
@@ -193,7 +206,13 @@ class MainGame : ComponentActivity() {
                     secondPlayerName.text = playerTwo+" score: "+secondPlayerScore
                 }
             }
+        } else{
+            if (currentMove == 2 && gameMode=="PVC"){
+                val random : Int = computerMove(buttons)
+                makeMove(buttons[random], buttons)
+            }
         }
+
 
 
     }
@@ -204,5 +223,17 @@ class MainGame : ComponentActivity() {
 
     }
 
+    fun computerMove(buttons: Array<TextView>) : Int{
+        var random: Int
+        while(true) {
+            random = (0..8).random()
+            if (buttons[random].text == "") {
+                buttons[random].setClickable(false)
+                break
+            }
+
+        }
+        return random
+    }
 
 }
