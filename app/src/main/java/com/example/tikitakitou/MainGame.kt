@@ -9,7 +9,10 @@ import androidx.activity.ComponentActivity
 
 class MainGame : ComponentActivity() {
 
+    // inicialize mainigos, kuriem tiek pieskirtas sakotnejas noklusejuma vertibas, ar kuriem notiks
+    // darbosanas ari arpus onCreate metodes un kuru vertibas tiks mainitas
     var currentMove = 1
+    var initialMove = 0
     var moveCounter = 0
     var firstMove: Int? = 1
     var playerOne: String? = ""
@@ -20,6 +23,9 @@ class MainGame : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_game)
+
+        // inicialize mainigos, kuriem tiek pieskirtas vertibas no 9 lauciniem, kurus izvelesies
+        // speletaji speles gaita
         val btnOne = findViewById<TextView>(R.id.one)
         val btnTwo = findViewById<TextView>(R.id.two)
         val btnThree = findViewById<TextView>(R.id.three)
@@ -30,13 +36,15 @@ class MainGame : ComponentActivity() {
         val btnEight = findViewById<TextView>(R.id.eight)
         val btnNine = findViewById<TextView>(R.id.nine)
 
+        // ievieto speles laucinus masiva, lai nebutu jaraksta garie teksti
         val buttons = arrayOf(btnOne, btnTwo, btnThree, btnFour, btnFive, btnSix, btnSeven, btnEight, btnNine)
 
-        // nonem laukumam nost visus apzimjumus
+        // notira speles laukumu, ja nu tur kaut kas ir palicis
         setupGrid(buttons)
 
-        // padara "Play again" pogu neredzamu
+        // padara "Play again" pogu neredzamu, kamer spele nav izspeleta
         val btnPlayAgain = findViewById<Button>(R.id.btnNextRound)
+        btnPlayAgain.visibility = Button.INVISIBLE
 
         // sanem no izvelnes ekrana padoto informaciju
         val extras = intent.extras
@@ -49,33 +57,43 @@ class MainGame : ComponentActivity() {
         val firstPlayerName = findViewById<TextView>(R.id.textViewFirstPlayerPoints)
         val secondPlayerName = findViewById<TextView>(R.id.textViewSecondPlayerPoints)
         val textViewWinnerText = findViewById<TextView>(R.id.textViewWinnerText)
-        var initialMove = 0
 
+        // parbauda, kuram speletajam ir javeic pirmais gajiens
         if (firstMove == 0) {
+            // https://stackoverflow.com/a/45687695
+            // izvelas nejausi, kurs speletajs bus pirmais, ja tika izveleta "Random" poga
             initialMove = (1..2).random()
             currentMove = initialMove
-            println(currentMove)
         }else{
+            // citadak tiek izvelets pirmais speletajs, kas padots no ieprieksejas aktivitates
+            // izveles ekrana
+
             // ChatGPT
             // Q: why do i have an error for firstMove?
             // A: because firstMove is nullable, so you need to use the elvis operator (?:) to provide a default value
             currentMove = firstMove ?: 1
+
+            // initialMove mainigais vajadzigs, lai zinatu, kurs bija pirmais, kas gaja, lai
+            // nakamajas speles zinatu, kuram speletajam ir jaizdara pirmais gajiens
+            initialMove = firstMove ?: 1
         }
 
+        // parada, kuram speletajam ir jaizdara pirmais gajiens
         if (currentMove == 2){
             textViewWinnerText.text = "$playerTwo's turn"
         } else {
             textViewWinnerText.text = "$playerOne's turn"
         }
 
+        // parada speletaju punktu skaitu sakumam
         firstPlayerName.text = playerOne+" score: "+firstPlayerScore
         secondPlayerName.text = playerTwo+" score: "+secondPlayerScore
 
-        println("gameMode: $gameMode playerOne: $playerOne playerTwo: $playerTwo firstMove: $firstMove")
+        //println("gameMode: $gameMode, playerOne: $playerOne, playerTwo: $playerTwo, firstMove: $firstMove")
 
-
-
-        btnPlayAgain.visibility = Button.INVISIBLE
+        // kad spele beidzas un speletaji grib spelet velreiz, tiek uzspiesta "Play again" poga
+        // un tiek atkal notirits speles laukums un ja speles veids ir PVC, tad ari tiek parbaudits,
+        // vai pirmais gajiens ir jaizdara datoram un ja ir, tad to izdara
         btnPlayAgain.setOnClickListener {
             setupGrid(buttons)
             currentMove = initialMove
@@ -90,24 +108,28 @@ class MainGame : ComponentActivity() {
             }
         }
 
+        // ja speles veids ir PVC un pirmais gajiens ir jaizdara datoram un si ir pirma spele, tad
+        // dators izdara gajienu pirmais
         if (gameMode == "PVC" && initialMove == 2){
             val random : Int = computerMove(buttons)
-            println(random)
             makeMove(buttons[random], buttons)
         }
-            // https://stackoverflow.com/a/44126291
 
-        // "Play again" poga
         // "skatas", kuras pogas tiek nospiestas
         for (button in buttons){
             button.setOnClickListener {
 
+                // kad tiek nospiesta kada no pogam, tad tiek izsaukta funkcija, kas izdara gajienu
                 makeMove(button, buttons)
+
                 //https://stackoverflow.com/a/44126291
+                // nospiesto pogu padara par vairs nenospiezamu, lai speletajs nevar uzspiest uz tas
+                // divreiz, ta, iespejams, mainot laucina vertibu no "X" uz "O" un otradi
                 button.setClickable(false);
             }
         }
 
+        // poga, kas atgriez uz galveno izvelnes ekranu
         val btnMainMenu = findViewById<Button>(R.id.btnMainMenu)
         btnMainMenu.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -115,6 +137,7 @@ class MainGame : ComponentActivity() {
         }
     }
 
+    // funkcija, kas notira speles laukumu un padara visus laucinus par spejamiem
     fun setupGrid(buttons: Array<TextView>){
 
         for (button in buttons){
@@ -127,6 +150,7 @@ class MainGame : ComponentActivity() {
         currentMove = firstMove ?: 1
     }
 
+    // funkcija, kas parbauda, vai spele ir beigusies, kad kads no speletajiem ir uzvarejis vai ir neizskirts
     fun checkIfGameOver(buttons: Array<TextView>) : Boolean{
         val win = false
 
@@ -162,17 +186,19 @@ class MainGame : ComponentActivity() {
             win == true
             return true
         }
-        if(moveCounter == 9 && win == false){
+        if(moveCounter == 9 && !win){
             moveCounter = 10
             return true
         }
         return false
     }
 
-    // speletajs izdara gajienu
+    // logika cilveku-speletaju gajienu veiksanai
     fun makeMove(button: TextView, buttons: Array<TextView>){
         val textViewWinnerText = findViewById<TextView>(R.id.textViewWinnerText)
 
+        // parbauda, kura speletaja gajiens ir jaizdara, izmanina tas pogas vertibu, gajienu un cik
+        // gajienu ir izdarits
         if (currentMove == 1){
             button.text = "X"
             textViewWinnerText.text = "$playerTwo's turn"
@@ -184,6 +210,9 @@ class MainGame : ComponentActivity() {
             currentMove = 1
             moveCounter++
         }
+
+        // parbauda, vai spele ir beigusies, ja ir, tad padara visus laucinus par nespejamiem un
+        // parada uzvaras tekstu
         if(checkIfGameOver(buttons)){
             for (button in buttons){
                 button.setClickable(false)
@@ -192,7 +221,7 @@ class MainGame : ComponentActivity() {
             val firstPlayerName = findViewById<TextView>(R.id.textViewFirstPlayerPoints)
             val secondPlayerName = findViewById<TextView>(R.id.textViewSecondPlayerPoints)
 
-
+            // parada uzvaras tekstu atkariba no ta, kas vinne un ari tam pieskaita punktus
             if (moveCounter == 10){
                 textViewWinnerText.text = "It's a Draw!"
             }else {
@@ -207,22 +236,24 @@ class MainGame : ComponentActivity() {
                 }
             }
         } else{
+            // ja spele nav beigusies, tad parbauda, vai spele ir PVC un ja ir, tad dators izdara
+            // savu gajienu
             if (currentMove == 2 && gameMode=="PVC"){
                 val random : Int = computerMove(buttons)
                 makeMove(buttons[random], buttons)
             }
         }
-
-
-
     }
 
+    // funkcija, kas padara "Play again" pogu redzamu
     fun btnPlayAgainVisible(){
         val btnPlayAgain = findViewById<Button>(R.id.btnNextRound)
         btnPlayAgain.visibility = Button.VISIBLE
 
     }
 
+    // funkcija, kas izdara datora gajienu, kur tas pec nejausibas izvelas, kura laucina vertibu
+    // mainit un atgriez to laucina numuru
     fun computerMove(buttons: Array<TextView>) : Int{
         var random: Int
         while(true) {
@@ -231,9 +262,7 @@ class MainGame : ComponentActivity() {
                 buttons[random].setClickable(false)
                 break
             }
-
         }
         return random
     }
-
 }

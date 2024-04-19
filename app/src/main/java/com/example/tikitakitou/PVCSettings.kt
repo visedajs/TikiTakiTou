@@ -11,7 +11,10 @@ import com.google.android.material.button.MaterialButton
 
 
 class PVCSettings: ComponentActivity() {
-    fun checkIfNameIsEmpty(name: String): Boolean {
+    fun checkIfNameIsEmpty(name: String, player: EditText): Boolean {
+        if (name.isEmpty()){
+            player.error = "Please enter your name"
+        }
         return name.isEmpty()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +28,9 @@ class PVCSettings: ComponentActivity() {
             startActivity(Intent2)
         }
 
+        // inicialize mainigos laukiem un pogam
         val playerName = findViewById<EditText>(R.id.editTextPVCName)
-
         val btnPVPPlayGame = findViewById<Button>(R.id.btnPVCPlayGame)
-
-
         val buttonFirst = findViewById<MaterialButton>(R.id.btnPVCToggleFirst)
         val buttonSecond = findViewById<MaterialButton>(R.id.btnPVCToggleSecond)
         val buttonRandom = findViewById<MaterialButton>(R.id.btnPVCToggleRandom)
@@ -39,18 +40,19 @@ class PVCSettings: ComponentActivity() {
         // pogas, kas lauj izveleties, kuram bus pirmais gajiens
         buttonFirst.setOnClickListener {
             val one = playerName.text.toString()
-            if(checkIfNameIsEmpty(one)){
-                playerName.error = "Please enter your name"
+
+            // parbauda, vai ir ievadits speletaja vards, ja nav, tad nevar uzspiest uz pogam
+            if(checkIfNameIsEmpty(one, playerName)){
                 return@setOnClickListener
             }
-
             textViewFirstMoveChoice.setText("Chosen: $one")
             firstMove = 1
         }
         buttonSecond.setOnClickListener {
             val one = playerName.text.toString()
-            if(checkIfNameIsEmpty(one)){
-                playerName.error = "Please enter your name"
+
+            // parbauda, vai ir ievadits speletaja vards, ja nav, tad nevar uzspiest uz pogam
+            if(checkIfNameIsEmpty(one, playerName)){
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Computer")
@@ -58,22 +60,20 @@ class PVCSettings: ComponentActivity() {
         }
         buttonRandom.setOnClickListener {
             val one = playerName.text.toString()
-            if(checkIfNameIsEmpty(one)){
-                playerName.error = "Please enter your name"
+
+            // parbauda, vai ir ievadits speletaja vards, ja nav, tad nevar uzspiest uz pogam
+            if(checkIfNameIsEmpty(one, playerName)){
                 return@setOnClickListener
             }
             textViewFirstMoveChoice.setText("Chosen: Random")
-            //https://stackoverflow.com/a/45687695
-            // izvelas nejausi, kurs speletajs bus pirmais
             firstMove = 0
         }
         // poga, kas sak speli
         btnPVPPlayGame.setOnClickListener {
-
-            //parbauda, vai speletaja vards ir ievadits
+            // parbauda, vai speletaja vards ir ievadits (jo no sakuma pec noklusejuma pirmais gajiens
+            // tiek nejausi izvelets, tapec, ja neviena no tam pogam nav nospiesta, tad seit ari notiek parbaude)
             val one = playerName.text.toString()
-            if (one.isEmpty()) {
-                playerName.error = "Please enter your name"
+            if(checkIfNameIsEmpty(one, playerName)){
                 return@setOnClickListener
             }
 
